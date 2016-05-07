@@ -1,0 +1,88 @@
+body {
+  background-color: #333333;
+}
+
+#container {
+  height: 370px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+  padding: 0;
+  width: 1275px;
+}
+
+#dieArea {
+  margin-right: 755px;
+  margin-top: 15px;
+  text-align: center;
+  width: 200px;
+}
+
+input#DTen {
+  border: 0;
+  cursor: pointer;
+  display:block;
+  height: 32px;
+  margin: 0 auto;
+  padding: 0;
+  text-indent: -9999px;
+  width: 32px;
+}
+
+#gameBoard {
+  padding: 0;
+  margin: 0;
+}
+
+#gameCanvasArea {
+  float: right;
+  height: 350px;
+  margin: 0;
+  width: 1075px;
+}
+
+h1 {
+  margin-top: 0px;
+  padding-top: 5px;
+}
+
+h2 {
+  font-size: .80em;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#player1Area {
+  background-color: MediumPurple;
+  margin-right: 755px;
+  width: 200px;
+}
+
+#player2Area {
+  background-color: Turquoise;
+  margin-right: 755px;
+  width: 200px;
+}
+
+#playerMove {
+  border: #000 1px solid;
+  width: 200px;
+}
+
+#playerRoll {
+  width: 200px;
+}
+
+#sidebar {
+  background-color: #888888;
+  height: 350px;
+}
+#title {
+  margin-right: 755px;
+  margin-bottom: 15px;
+  text-align: center;
+  width: 200px;
+}

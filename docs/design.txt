@@ -1,0 +1,687 @@
+---------- STEP 0 ----------
+
+PROBLEM STATEMENT:
+
+A program will act like a single path, Candyland type board game. The game will
+support 5 players. Each player will have a different sprite to represent
+themselves. The game path will have 115 spaces the player can land on, not
+including the beginning starting "waiting area" but including the "finish" space.
+
+Each player will take turns rolling a die, and then move either
+forward or backward upon the game path the resulting number of spaces. If a player
+lands on a "go backward" space, the player will be forced to "slide backward" to
+a previous position on the board. At the end of this slide, the player has a 1/3
+chance to encounter the "Magical Duck of Transportation". If the player
+encounters the Magical Duck of Transportation, the player will be teleported to
+a random position on the board from space 1 to 100.
+
+The first player to land on the finish space wins.
+
+Nouns:  board game, 5 players, 115 spaces, game path, waiting area, finish, die
+        go backward space, Magical Duck of Transportation,
+
+Verbs:  rolling a die, move forward or backward, slide backward, encounter,
+        teleported, first to land
+
+DEFINING DIAGRAM:
+
+Inputs
+  player1
+  roleDie
+  moveForward
+  moveBackward
+
+Processing
+  read player1
+  set player1 character
+
+  While no player is on space 115
+    prompt player1 to role die
+    player1 moves
+    IF player1 finishes movement on goBackwardSpace
+      player moves backward
+      check for encounter MDT
+      IF player1 encounter MDT
+        move player at random to position 1 to 100 on game board
+      ENDIF
+    ENDIF
+  ENDWHILE
+
+  IF player1 is on space 115
+    output win
+    end game
+  ENDIF
+
+Outputs
+  player1
+  win
+
+PSEUDOCODE:
+
+PathOfDestinyGame
+  initialize gamePath
+  initialize goBackOneEnd
+  initialize goBackTwoEnd
+  initialize goBackThreeEnd
+  initialize goBackOneStart
+  initialize goBackTwoStart
+  initialize goBackThreeStart
+  initialize player1
+
+
+  begin game
+
+  WHILE player1 IS NOT on space 115
+
+    prompt player1 to role die
+    alert player1 of result
+    prompt player1 to move forward OR backward on gamepath
+
+    IF player1 lands on goBackOneStart OR goBackTwoStart OR goBackThreeStart
+      player1 moves backward
+      roll random chanceMDT to encounter MDT
+      IF player1 is on goBackOneEnd AND chanceMDT is between 0 AND .33
+        roll random 1 through 100
+        move player1 to corresponding space on gamePath
+      ENDIF
+    ENDIF
+
+  ENDWHILE
+END
+
+---------- STEP 1 ----------
+PROBLEM STATEMENT
+
+A program is needed to simulate a D10 die roll. A user will click a "roll"
+button, the program will calculate a random number from 1 to 10, and output the
+results to the screen.
+
+Nouns: D10 die, random number from 1 to 10
+Verbs: click "roll" button, calculate random number, output
+
+DEFINING DIAGRAM
+
+INPUTS
+  rollDie
+PROCESSING
+  calculate random number from 1 to 10
+OUTPUTS
+  result
+
+PSEUDOCODE
+
+RollD10
+  initialize rollD10 to ""
+  initialize D10 to array 1 through 10
+  initialize rollResult = 0;
+
+  click rollD10 button
+  access random position in array
+  set rollResult to returned array value
+
+  set output = "Roll Result: " + rollResult
+
+  display output
+END
+
+TEST PLANS
+
+VARIABLES: button click
+
+TEST PLAN 1
+
+INPUT: button click
+
+EXPECTED: 1 - seen
+          2 - seen
+          3 - seen
+          4 - seen
+          5 - seen
+          6 - seen
+          7 - seen
+          8 - seen
+          9 - seen
+          10 - seen
+
+ACTUAL: 1 - seen
+        2 - seen
+        3 - seen
+        4 - seen
+        5 - seen
+        6 - seen
+        7 - seen
+        8 - seen
+        9 - seen
+        10 - seen
+
+TEST PLAN 2
+
+INPUT: button click 100x's
+
+EXPECTED: Out of 100 clicks, each # should appear approx. 10x
+
+
+ACTUAL: 1 -111111111 = 9
+        2 -111111111111111 = 15
+        3 -11111111111111 = 14
+        4 -1111 = 4
+        5 -1111 = 4
+        6 -1111111111111 = 13
+        7 -11111111111111 = 14
+        8 -111111111111 = 12
+        9 -1111111 = 7
+        10 -11111111 = 8
+        (The very small occurrence of 4 and 5 is concerning, but is 100 clicks
+        enough?)
+
+---------- STEP 2 ----------
+PROBLEM STATEMENT
+
+A d10 die is rolled, and the resulting number is added to the players score.
+While the players score is less than 115, the player can continue to roll the
+die and add the resulting number to his score. The player wins when the players
+score is greater than or equal to 115.
+
+Nouns: d10 die, player score
+
+Verbs: die rolled, added to player score, continue to roll, win
+
+DEFINING DIAGRAM
+
+INPUTS
+  d10RollResult
+
+PROCESSING
+  WHILE player1Score < 115
+    roll d10Die
+    add d10RollResult to player1Score
+  ELSE
+    display win
+
+
+OUTPUT
+  rollagain OR win
+
+PSEUDOCODE
+
+RollD10
+  initialize rollD10 to ""
+  initialize D10 to array 1 through 10
+  initialize rollResult = 0;
+
+  click rollD10 button
+  access random position in array
+  set rollResult to returned array value
+
+  set output = "Roll Result: " + rollResult
+
+  display output
+END
+
+Main
+  initialize player1Position to 0
+  initialize player1PositionOutput to elementid "player1PositionOutput"
+  initialize resultNumber to 0
+  initialize rollResultOutput to elementid rollResultOutput
+
+  addEventListener for "submit" from form (rollD10)
+    rollD10 preventDefault
+
+    resultNumber = rollD10 function
+    display rollResultOutput = resultNumber
+
+    player1Position = player1Position + resultNumber
+    display player1PositionOutput = player1Position
+
+    IF player1Position >= 115 THEN
+      alert("You Win!")
+    ENDIF
+END
+
+TEST PLANS
+
+VARIABLES: player1Position, resultNumber
+
+TEST PLAN 1:
+
+INPUTS:
+  none from user
+
+EXPECTED: Whenever the button is clicked, the player1PositionOutput should
+          increase by the resultNumber
+
+
+ACTUAL: Start Player 1 Position: 0
+        Roll Result: 4
+        New Player 1 Position: 4
+
+TEST PLAN 2:
+
+INPUTS:
+  none from user
+
+EXPECTED: Whenever the button is clicked, the player1PositionOutput should
+          increase by the resultNumber
+
+
+ACTUAL: Start Player 1 Position: 4
+        Roll Result: 8
+        New Player 1 Position: 12
+
+TEST PLAN 3
+
+INPUTS:
+  none from user
+
+EXPECTED: When player1PositionOutput displays a number equal to or greater than
+          115, alert "You Win", and number below, no alert
+
+
+ACTUAL: Begin Player 1 Position: 112 - No alert
+        Roll Result: 4
+        New Player 1 position: 116 - "You win!"
+
+TEST PLAN 4
+
+INPUTS:
+  none from user
+
+EXPECTED: When player1PositionOutput displays a number equal to or greater than
+          115, alert "You Win", and number below, no alert
+
+
+ACTUAL: Begin Player 1 Position: 110 - No alert
+        Roll Result: 9
+        New Player 1 position: 119 - "You win!"
+
+
+---------- STEP 3 ----------
+PROBLEM STATEMENT
+
+A program is needed in which a player rolls a simulated D10 die. The result of
+the roll is displayed to the user, and the user is asked if the wish to move
+forward or backward. If the player "moves forward" the result is added to the
+player position count, if the player chooses "move backward" the result is
+subtracted from the player position count. When the player reaches a position
+count greater or equal to 115, they are alerted that they won.
+
+Nouns: D10 die, roll result, move forward, move backward, position >= 115
+
+Verbs: roll D10, display, ask, add or subtract, alert
+
+DEFINING DIAGRAM
+
+INPUTS
+  rollD10Die
+
+PROCESSING
+  player rolls d10Die
+  display rollResult
+  prompt player to move forward or backward
+  if move forward
+    add rollResult to playerPosition
+  else
+    subtract rollResult to player1Position
+  when playerPosition reaches 115 output "You Win"
+
+
+OUTPUT
+  playerPosition
+  winAlert
+
+PSEUDOCODE
+
+  dTenTime
+    initialize d10Die to [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    initialize resultNumber1 to 0
+
+    resultNumber1  = random value from d10Die
+
+    return resultNumber1
+  END
+
+  Main
+
+  initialize playerDecision to ""
+  initialize form to document.getElementById("rollD10Die")
+  initialize rollResultOutput to document.getElementById("rollResultOutput")
+  initialize player1PositionOutput to document.getElementById("player1PositionOutput")
+  initialize player1Position to 0
+  initialize resultNumber to 0
+
+  player1PositionOutput.innerHTML = player1Position
+
+  EVENT LISTENER for die roll
+    CALL dTenTime
+    display resultNumber
+    prompt for playerDecision with "Type "forward" to move forward, or "backward" to move backward"
+    convert playerDecision to uppercase
+
+    IF playerDecision EQUALS FORWARD
+      playerPosition = playerPosition + resultNumber
+    ELSE
+      playerPosition = playerPosition - resultNumber
+    ENDIF
+
+    display updated playerPosition
+
+    IF playerPosition >= 115
+      alert "You Win"
+    ENDIF
+
+  END
+
+TEST PLANS
+
+Variables: playerDecision
+
+TEST PLAN 1:
+
+  INPUT: forward
+
+  EXPECTED: Adds result number to playerPosition, resulting in playerPosition
+            being a higher number
+
+  ACTUAL: Player Position Start: 0
+          Die Result: 8
+          Player Position End: 8
+
+TEST PLAN 2:
+
+  INPUT: backward
+
+  EXPECTED: Subtracts resultNumber from playerPosition, resulting in playerPosition
+            being a higher number
+
+  ACTUAL: Player Position Start: 0
+          Die Result: 7
+          Player Position End: -7
+
+TEST PLAN 3:
+
+  INPUT: FoRwarD
+
+  EXPECTED: Adds resultNumber from playerPosition, resulting in playerPosition
+            being a higher number
+
+  ACTUAL: Player Position Start: 0
+          Die Result: 5
+          Player Position End: 5
+
+TEST PLAN 4:
+
+  INPUT: 7
+
+  EXPECTED: Loop back to prompting again until the user enters forward or backward
+
+  ACTUAL: Player Position Start: 0
+          Die Result: 10
+          Alert: Entry invalid. Please enter "forward" or "backward".
+
+---------- STEP 4 ----------
+
+PROBLEM STATEMENT
+
+A program needs to simulate two players moving along a board game path. Once the
+game begins, player one rolls a die, chooses to move forward or backward on the
+game board the number of spaces equal to the die result. If player one doesn't
+reach the final space, player two rolls the die. Player two then chooses to move
+forward or backward upon the game board. If player two doesn't reach the final
+space, then player one rolls the die again. This repeats until one of the
+players reach the final space. The first player to reach the final space wins
+and the game ends.
+
+Nouns: two players, die result, game board
+
+Verbs: roll die, move forward or backward equal to die result,
+        loop until one player reaches the final space
+
+DEFINING DIAGRAM
+
+INPUTS
+  dieResult
+
+PROCESSING
+  player1 rolls d10Die
+  output dieResult
+  player1 moves forward or backward
+  if land on final space, WIN
+  else player2 rolls d10Die
+  output dieResult
+  player2 moves forward or backward
+  if land on final space, WIN
+  repeat until either player wins
+
+OUTPUT
+  playerPosition
+
+PSEUDOCODE
+
+dTenTime
+  initialize d10Die to [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  initialize resultNumber1 to 0
+
+  resultNumber1  = random value from d10Die
+
+  return resultNumber1
+END
+
+calculatePlayerPosition with playerPosition, dieResult
+  initialize notMadeDecision to true
+  initialize playerDecision to ""
+
+  WHILE notMadeDecision
+    prompt for playerDecision with "Enter "forward" to move forward or "backward" to move backward."
+    playerDecision = playerDecision converted to uppercase
+
+    IF playerDecision EQUALS "FORWARD"
+      playerPosition = playerPosition + dieResult
+      notMadeDecision = false
+      return playerPosition
+    ELSE IF playerDecision EQUALS "BACKWARD"
+      playerPosition = playerPosition - dieResult
+      notMadeDecision = false
+      return playerPosition
+    ELSE
+      alert "Entry invalid. Please enter "forward" or "backward"."
+    ENDIF
+  ENDWHILE
+
+END
+
+MAIN
+  initialize form to document.getElementById("rollD10Die")
+  initialize player1Position to 0
+  initialize player2Position to 0
+  initialize player1PositionOutput to document.getElementById("player1PositionOutput")
+  initialize player2PositionOutput to document.getElementById("player2PositionOutput")
+  initialize player1Turn
+  initialize resultNumber to 0
+  initialize rollResultOutput to document.getElementById("rollResultOutput")
+  initialize winMessage to ""
+  initialize winPosition to 20
+
+  player1PositionOutput.innerHTML = player1Position
+  player2PositionOutput.innerHTML = player2Position
+
+  EVENT LISTENER for rollD10Die
+    set resultNumber to function dTenTime
+    set rollResultOutput to resultNumber
+
+  IF player1Turn THEN
+    player1Position = function calculatePlayerPosition with player2Position and resultNumber
+
+    player1PositionOutput = player1Position
+
+    IF player1Position < winPosition THEN
+      player1Turn = false
+    ELSE
+      winMessage = "Player One Wins!"
+      alert(winMessage)
+    ENDIF
+  ELSE
+    player2Position = function calculatePlayerPosition with player2Position and resultNumber
+
+    player2PositionOutput = player2Position
+
+    IF player2Position < winPosition THEN
+      player2Turn = false
+    ELSE
+      winMessage = "Player Two Wins!"
+      alert(winMessage)
+    ENDIF
+  ENDIF
+END
+
+CALL Main
+
+TEST PLANS ---
+
+VARIABLES:
+
+TEST PLAN 1:
+
+INPUTS:
+  rollResult
+
+EXPECTED: First Click:
+          start player1PositionOutput: 0
+          start player2PositionOutput 0
+          rollResultOutput: some num
+          playerDecision: forward
+          end player1PositionOutput: 0 + sum num
+          end player2PositionOutput: 0
+
+          Second Click:
+          start player1PositionOutput: sum num
+          start player2PositionOutput 0
+          rollResultOutput: another num
+          playerDecision: forward
+          end player1PositionOutput: sum num
+          end player2PositionOutput: another num
+
+          CONTINUE until end position reached, with player 1 and 2 alternating turns
+
+
+ACTUAL:   First Click:
+          start player1PositionOutput: 0
+          start player2PositionOutput 0
+          rollResultOutput: 10
+          playerDecision: forward
+          end player1PositionOutput: 10
+          end player2PositionOutput: 0
+
+          Second Click:
+          start player1PositionOutput: 10
+          start player2PositionOutput 0
+          rollResultOutput: 8
+          playerDecision: forward
+          end player1PositionOutput: 10
+          end player2PositionOutput: 8
+
+          Third Click:
+          start player1PositionOutput: 10
+          start player2PositionOutput 8
+          rollResultOutput: 7
+          playerDecision: forward
+          end player1PositionOutput: 17
+          end player2PositionOutput: 8
+
+          Fourth Click:
+          start player1PositionOutput: 17
+          start player2PositionOutput 8
+          rollResultOutput: 6
+          playerDecision: backward
+          end player1PositionOutput: 17
+          end player2PositionOutput: 2
+
+---------- STEP 5 ----------
+
+--DRAW GAME BOARD PROBLEM STATEMENT--
+
+Draw a game board on an HTML page.
+
+Nouns: game board
+
+Verbs: draw
+
+DEFINING DIAGRAM
+
+INPUTS
+  none from the user
+
+PROCESSING
+  set drawGameBoard function
+  draw rectangle
+
+OUTPUTS
+  light green rectangle
+
+
+PSEUDOCODE
+
+  DrawGameBoard
+    initialize to ctx = canvas.getContext("2d")
+    ctx.fillstyle = green
+    fillRect 0, 0, 1366, 768
+  END
+
+  Main
+    initialize canvas to boardGame ID
+
+    CALL DrawGameBoard
+  END
+
+  TEST PLANS
+
+  variables: none from the user
+
+  TEST PLAN 1:
+
+  INPUTS: none from the user
+
+  EXPECTED: Green rectangle appears on HTML
+
+  ACTUAL: Green rectangle appeared on HTML page
+
+
+--DRAW GAME SPACES PROBLEM STATEMENT--
+
+Game spaces need to be drawn on the game board canvas.
+
+Nouns: game space, game board
+
+Verbs: drawn
+
+--DEFINING DIAGRAM--
+
+INPUT
+  none from the user
+
+PROCESSING
+  set drawSpace function
+  draw hexagon
+  repeat for each space
+
+OUTPUT
+  game spaces
+
+--PSEUDOCODE--
+
+drawSpace
+  FOR x = 0, x < 12 , x++
+    DRAW canvas hexagon shape
+    Each coordinate = (initial X coordinate + (x * hexagon width)),
+                      (initial Y coordinate + (y * hexagon height)
+  ENDLOOP
+END
+
+TEST PLANS
+
+VARIABLES: none?
+
+INPUTS: none from user
+
+EXPECTED: Row of 12 hexagons
+
+ACTUAL: Row of 12 hexagons
