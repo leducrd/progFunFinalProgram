@@ -75,8 +75,6 @@ END
 
 TEST PLANS
 
-TEST PLANS
-
 Variables: click backward, click forward
 
 TEST PLAN 1:
