@@ -1,0 +1,98 @@
+PROBLEM STATEMENT---
+
+In the board game program, after the player rolls the die, instead of prompts
+asking for forward or backward, two buttons should appear, one that says forward
+and one that says backward. When the user clicks the “forward” button, the roll
+result is added to their position. When the player clicks the backward button,
+the roll result is subtracted from the player’s positon. The buttons disappear
+once the player has made their decision, and reappear when they have rolled the
+die again.
+
+Nouns: roll result, forward and backward button, player position
+
+Verbs: roll die, appear, click forward, click backward, disappear
+
+
+DEFINING DIAGRAM---
+
+INPUTS:
+  rollResult
+  forwardButton
+  backwardButton
+
+PROCESSING:
+  Roll die
+  Output rollResult
+  Forward button
+    Add to player position
+  Backward button
+    Subtract player position
+  Output player positon
+
+OUTPUTS
+  Player moves forward
+  Player moves backward
+
+PSEUDOCODE---
+
+moveForward with playerPosition, dieResult, winPosition
+  playerPosition = playerPosition + dieResult
+
+  if playerPosition > winPosition
+    playerPosition = winPosition
+
+  return playerPosition
+END
+
+moveBackward with playerPosition, dieResult, winPosition
+  playerPosition = playerPosition - dieResult
+
+  if playerPosition < 0
+    playerPosition = 0
+END
+
+calculatePlayerPosition with playerPosition, dieResult, winPosition
+
+  forwardButton.event listener "submit" function(decisionForward)
+    CALL moveForward function
+  ENDLISTENER
+
+  backwardButton.even listener "submit" function(moveBackward)
+    CALL moveBackward function
+  ENDLISTENER
+
+END
+
+Main
+
+  IF player1Turn
+    player1Position = calculatePlayerPosition
+  ELSE
+    player2Position = calculatePlayerPosition
+  ENDIF
+
+END
+
+TEST PLANS
+
+TEST PLANS
+
+Variables: click backward, click forward
+
+TEST PLAN 1:
+
+  INPUT: click forward
+
+  EXPECTED: Adds result number to playerPosition, resulting in playerPosition
+            being a higher number
+
+  ACTUAL:
+
+TEST PLAN 2:
+
+  INPUT: click backward
+
+  EXPECTED: Subtracts resultNumber from playerPosition, resulting in playerPosition
+            being a higher number
+
+  ACTUAL:
