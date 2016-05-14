@@ -10,44 +10,9 @@ function dTenTime (){
   return resultNumber1;
 }
 
-// calculates player position on the board as a number, and returns it so it can
-// be printed to the web page.
-function calculatePlayerPosition(playerPosition, dieResult, winPosition) {
-  var notMadeDecision = true;
-  var playerDecision = "";
-
-  // stops the player from entering anything other than the inputs I am looking
-  // for.
-  while (notMadeDecision) {
-    // prompt for the player to move forward or backward
-    // this will eventually be replaced with buttons.
-    playerDecision = prompt("Enter \"forward\" to move forward or \"backward\" to move backward.");
-    playerDecision = playerDecision.toUpperCase();
-
-    if (playerDecision === "FORWARD") {
-      // add result to the player position
-      playerPosition = playerPosition + dieResult;
-      // prevents the play from move forward beyond the finish space
-      if (playerPosition > winPosition) {
-        playerPosition = winPosition;
-      }
-      notMadeDecision = false;
-      return (playerPosition);
-    } else if (playerDecision === "BACKWARD") {
-      playerPosition = playerPosition - dieResult;
-      // prevents player from move backwards beyond the start space
-      if (playerPosition < 0) {
-        playerPosition = 0;
-      }
-      notMadeDecision = false;
-      return (playerPosition);
-    } else {
-      alert("Entry invalid. Please enter \"forward\" or \"backward\".");
-    }
-  }
-}
-
 function Main(){
+  var movePlayerBackward = document.getElementById("moveBackward");
+  var movePlayerForward = document.getElementById("moveForward");
   var player1Position = 0;
   var player2Position = 0;
   var player1PositionOutput = document.getElementById("player1PositionOutput");
@@ -84,18 +49,24 @@ function Main(){
     resultNumber = dTenTime();
     // display result
     rollResultOutput.innerHTML = resultNumber;
+  });
 
-    // determine which players position to modify
-    if (player1Turn) {
+  movePlayerForward.addEventListener("submit", function(forward) {
+    forward.preventDefault();
+    if(player1Turn){
       // clear the former position of player 1
       clearFormerPlayer1(player1Position);
-      // calculate player one position
-      player1Position = calculatePlayerPosition(player1Position,resultNumber,winPosition);
+      // add result to the player position
+      player1Position = player1Position + resultNumber;
+      // prevents the play from move forward beyond the finish space
+      if (player1Position > winPosition) {
+        player1Position = winPosition;
+      }
       // update player one square position
       Player1Square(player1Position);
       // display the updated player position
       player1PositionOutput.innerHTML = player1Position;
-      // make it not player one's turn anymore or set winner
+      // if player one hasn't won, make it player two's turn
       if (player1Position < winPosition) {
         player1Turn = false;
         player1NotifyOutput.innerHTML = "";
@@ -107,7 +78,58 @@ function Main(){
       // clear former position of player 2
       clearFormerPlayer2(player2Position);
       // calculate the player position
-      player2Position = calculatePlayerPosition(player2Position,resultNumber,winPosition);
+      player2Position = player2Position + resultNumber;
+      // prevents the play from move forward beyond the finish space
+      if (player2Position > winPosition) {
+        player2Position = winPosition;
+      }
+      // update player two square position
+      Player2Square(player2Position);
+      // display the updated player position
+      player2PositionOutput.innerHTML = player2Position;
+      // if player two hasn't won make it player one's turn again
+      if (player2Position < winPosition) {
+        player1Turn = true;
+        player1NotifyOutput.innerHTML = player1Notify;
+        player2NotifyOutput.innerHTML = "";
+      } else {
+        drawPlayer2Wins();
+      }
+    }
+  });
+
+  movePlayerBackward.addEventListener("submit", function(backward) {
+    backward.preventDefault();
+    if (player1Turn) {
+      // clear the former position of player 1
+      clearFormerPlayer1(player1Position);
+      // add result to the player position
+      player1Position = player1Position - resultNumber;
+      // prevents player from moving backward farther than the start space
+      if (player1Position < 0) {
+        player1Position = 0;
+      }
+      // update player one square position
+      Player1Square(player1Position);
+      // display the updated player position
+      player1PositionOutput.innerHTML = player1Position;
+      // if player one hasn't won, make it player two's turn
+      if (player1Position < winPosition) {
+        player1Turn = false;
+        player1NotifyOutput.innerHTML = "";
+        player2NotifyOutput.innerHTML = player2Notify;
+      } else {
+        drawPlayer1Wins();
+      }
+    } else {
+      // clear former position of player 2
+      clearFormerPlayer2(player2Position);
+      // calculate the player position
+      player2Position = player2Position - resultNumber;
+      // prevents player from moving backward farther than the start space
+      if (player2Position < 0) {
+        player2Position = 0;
+      }
       // update player two square position
       Player2Square(player2Position);
       // display the updated player position
